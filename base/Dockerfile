@@ -67,7 +67,7 @@ RUN apt-get -qq update && \
 # RUN chmod +x /usr/local/bin/dumb-init
 # See: https://github.com/Yelp/dumb-init for installation from pip on Raspberry Pi
 RUN apt-get -y install gcc python3-pip
-RUN pip install dumb-init
+RUN pip3 install dumb-init
 
 # Add the browserless user (blessuser)
 RUN groupadd -r blessuser && useradd -r -g blessuser -G audio,video blessuser \
