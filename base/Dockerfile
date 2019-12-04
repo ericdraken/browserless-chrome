@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM arm32v7/ubuntu:18.04
 
 # Dependencies + NodeJS
 RUN apt-get -qq update && \
@@ -6,7 +6,6 @@ RUN apt-get -qq update && \
   apt-get -y -qq install software-properties-common &&\
   apt-add-repository "deb http://archive.canonical.com/ubuntu $(lsb_release -sc) partner" && \
   apt-add-repository ppa:malteworld/ppa && apt-get -qq update && apt-get -y -qq install \
-  adobe-flashplugin \
   msttcorefonts \
   ffmpeg \
   fonts-noto-color-emoji \
@@ -64,8 +63,11 @@ RUN apt-get -qq update && \
   fc-cache -f -v
 
 # Bake-in an init system to avoid the zombie apocalypse
-ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
-RUN chmod +x /usr/local/bin/dumb-init
+# ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
+# RUN chmod +x /usr/local/bin/dumb-init
+# See: https://github.com/Yelp/dumb-init for installation from pip on Raspberry Pi
+RUN apt-get -y install gcc python3-pip
+RUN pip install dumb-init
 
 # Add the browserless user (blessuser)
 RUN groupadd -r blessuser && useradd -r -g blessuser -G audio,video blessuser \

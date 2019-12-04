@@ -3,6 +3,8 @@ node_modules/
 build/
 external/
 debugger/devtools
+.idea
+*.iml
 
 # MAC
 .DS_Store

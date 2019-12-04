@@ -1,4 +1,4 @@
-FROM browserless/base:latest
+FROM ericdraken/browserless-chrome-base:armv7
 
 # Build Args
 ARG USE_CHROME_STABLE
@@ -27,8 +27,8 @@ COPY . .
 # Install Chrome Stable when specified
 RUN if [ "$USE_CHROME_STABLE" = "true" ]; then \
     cd /tmp &&\
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
-    dpkg -i google-chrome-stable_current_amd64.deb;\
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_armhf.deb &&\
+    dpkg -i google-chrome-stable_current_armhf.deb;\
   fi
 
 # Build
