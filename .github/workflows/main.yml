@@ -31,4 +31,4 @@ jobs:
             DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
         run: |
             echo 'Docker Build...'
-            docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --tag $DOCKERHUB_USER/$IMAGE_NAME --push --file ./Dockerfile .
+            docker buildx build --platform linux/arm/v7 --tag $DOCKERHUB_USER/$IMAGE_NAME --push --file ./Dockerfile .
