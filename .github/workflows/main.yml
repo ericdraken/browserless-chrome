@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - armv7
 jobs:
   build-armv7:
     runs-on: ubuntu-latest
