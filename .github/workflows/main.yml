@@ -1,0 +1,34 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-armv7:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      - name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      - name: DockerHub Login
+        run: |
+            echo 'Dockerhub Registry Login'
+            docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin <<< "${{ secrets.DOCKERHUB_KEY }}"
+      - name: Github Package Registry Login
+        run: |
+            echo 'Github Package Registry Login'
+            docker login docker.pkg.github.com -u ${{ secrets.GITHUB_USER }} --password-stdin <<< "${{ secrets.TOKEN }}"
+      - name: Build Docker Image - ARM V7
+        env:
+            IMAGE_NAME: browserless-chrome
+            GITHUB_USER: ${{ secrets.GITHUB_USER }}
+            DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+        run: |
+            echo 'Docker Build...'
+            docker buildx build --platform linux/arm/v7 --tag $DOCKERHUB_USER/$IMAGE_NAME --push --file ./Dockerfile .
