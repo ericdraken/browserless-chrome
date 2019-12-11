@@ -8,8 +8,8 @@ jobs:
   build-armv7:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: Setup QEMU user-mode emulation
-        uses: actions/checkout@v1
         run: |-
           sudo apt-get update
           sudo apt-get install -y qemu qemu-user-static
