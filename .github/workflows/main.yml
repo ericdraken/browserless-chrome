@@ -25,4 +25,4 @@ jobs:
         env:
             IMAGE_NAME: browserless-chrome
         run: |
-            docker buildx build --platform linux/arm/v7 --tag ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME --push --file ./Dockerfile .
+            docker buildx build --platform linux/arm/v7 --output "type=image,push=true" --tag ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME --file ./Dockerfile .
