@@ -15,7 +15,7 @@ jobs:
           sudo apt-get install -y qemu-user-static
       - name: Set up Docker Buildx
         id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
+        uses: crazy-max/ghaction-docker-buildx@v1.0.5
         with:
           version: latest
       - name: Available platforms
@@ -24,15 +24,23 @@ jobs:
         run: docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin <<< "${{ secrets.DOCKERHUB_KEY }}"
       - name: Github Package Registry Login
         run: docker login docker.pkg.github.com -u ${{ secrets.GITHUB_USER }} --password-stdin <<< "${{ secrets.TOKEN }}"
-      - name: Build Docker Image - X86_64
-        env:
-            IMAGE_NAME: browserless-chrome
-        run: |
-            docker buildx --tag ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest --file ./Dockerfile.full .
-            docker push ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest
       - name: Build Docker Image - ARM V7
         env:
             IMAGE_NAME: browserless-chrome
         run: |
-            docker buildx build --platform linux/arm/v7 --tag ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:armv7 --file ./Dockerfile .
-            docker push ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:armv7
+            docker buildx build --platform linux/arm/v7 --tag ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:armv7 --push --file ./Dockerfile .
+
+  build-x86_64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: DockerHub Login
+        run: docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin <<< "${{ secrets.DOCKERHUB_KEY }}"
+      - name: Github Package Registry Login
+        run: docker login docker.pkg.github.com -u ${{ secrets.GITHUB_USER }} --password-stdin <<< "${{ secrets.TOKEN }}"
+      - name: Build Docker Image - X86_64
+        env:
+            IMAGE_NAME: browserless-chrome
+        run: |
+            docker build -t ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest -f Dockerfile.full .
+            docker push ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest
