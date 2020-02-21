@@ -42,5 +42,5 @@ jobs:
         env:
             IMAGE_NAME: browserless-chrome
         run: |
-            docker build -t ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest -f Dockerfile.full .
+            docker build -t ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest --build-arg BASE_IMAGE=ubuntu:18.04 --build-arg number_of_shards=5 --build-arg ARCH=amd64 --build-arg CHROMEDRIVER_VERSION=5 -f Dockerfile.full .
             docker push ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest
