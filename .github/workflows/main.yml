@@ -28,7 +28,7 @@ jobs:
         env:
             IMAGE_NAME: browserless-chrome
         run: |
-            docker buildx build --platform linux/arm/v7 --tag ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:armv7 --push .
+            docker buildx build --platform linux/arm/v7 --tag ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:armv7 --push -f Dockerfile.full .
 
   build-x86_64:
     runs-on: ubuntu-latest
