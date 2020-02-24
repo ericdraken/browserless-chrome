@@ -1,8 +1,9 @@
 ARG BASE_IMAGE=arm32v7/ubuntu:18.04
-ARG ARCH=armv7l
-ARG CHROMEDRIVER_VERSION=7.1.3
 
 FROM ${BASE_IMAGE}
+
+ARG ARCH=armv7l
+ARG CHROMEDRIVERVERSION=7.1.3
 
 # Dependencies + NodeJS
 RUN apt-get -qq update && \
@@ -110,8 +111,7 @@ RUN apt-get update && \
     ln -s /usr/bin/chromium-browser /usr/bin/google-chrome
 
 # Install Chrome driver
-RUN wget -q https://github.com/electron/electron/releases/download/v$CHROMEDRIVER_VERSION/chromedriver-v$CHROMEDRIVER_VERSION-linux-$ARCH.zip \
-    -O /tmp/driver.zip
+RUN wget -q https://github.com/electron/electron/releases/download/v$CHROMEDRIVERVERSION/chromedriver-v$CHROMEDRIVERVERSION-linux-$ARCH.zip -O /tmp/driver.zip
 RUN unzip /tmp/driver.zip -d /tmp/ && \
     mv -f /tmp/chromedriver /usr/bin/ && \
     chmod +x /usr/bin/chromedriver

@@ -28,7 +28,7 @@ jobs:
         env:
             IMAGE_NAME: browserless-chrome
         run: |
-            docker buildx build --platform linux/arm/v7 --tag ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:armv7 --push --file ./Dockerfile .
+            docker buildx build --platform linux/arm/v7 --tag ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:armv7 --push --file ./Dockerfile.full .
 
   build-x86_64:
     runs-on: ubuntu-latest
@@ -42,5 +42,5 @@ jobs:
         env:
             IMAGE_NAME: browserless-chrome
         run: |
-            docker build -t ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest --build-arg BASE_IMAGE=ubuntu:18.04 --build-arg ARCH=amd64 --build-arg CHROMEDRIVER_VERSION=7.1.3 -f Dockerfile.full .
+            docker build -t ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest --build-arg BASE_IMAGE=ubuntu:18.04 --build-arg ARCH=x64 --build-arg CHROMEDRIVERVERSION=7.1.3 -f Dockerfile.full .
             docker push ${{ secrets.DOCKERHUB_USER }}/$IMAGE_NAME:latest
